@@ -16,6 +16,10 @@ namespace IdentitySample.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PWZ { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -36,5 +40,7 @@ namespace IdentitySample.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<Clinic.Models.DoctorModel> DoctorModels { get; set; }
     }
 }
