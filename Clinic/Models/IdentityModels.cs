@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace IdentitySample.Models
 {
@@ -17,9 +18,14 @@ namespace IdentitySample.Models
             return userIdentity;
         }
 
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
         public string PWZ { get; set; }
+        public bool IsConfirmed { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -40,7 +46,5 @@ namespace IdentitySample.Models
         {
             return new ApplicationDbContext();
         }
-
-        public System.Data.Entity.DbSet<Clinic.Models.DoctorModel> DoctorModels { get; set; }
     }
 }
