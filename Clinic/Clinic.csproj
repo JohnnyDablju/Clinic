@@ -152,8 +152,6 @@
     <Content Include="packages.config" />
     <Content Include="Views\PatientsAdmin\Create.cshtml" />
     <Content Include="Views\PatientsAdmin\Delete.cshtml" />
-    <Content Include="Views\PatientsAdmin\Details.cshtml" />
-    <Content Include="Views\PatientsAdmin\Edit.cshtml" />
     <Content Include="Views\PatientsAdmin\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -218,7 +216,6 @@
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>

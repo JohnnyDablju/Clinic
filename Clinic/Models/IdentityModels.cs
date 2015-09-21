@@ -25,6 +25,8 @@ namespace IdentitySample.Models
         public string LastName { get; set; }
 
         public string PWZ { get; set; }
+        public string Pesel { get; set; }
+        public string Address { get; set; }
         public bool IsConfirmed { get; set; }
     }
 
