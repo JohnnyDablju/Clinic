@@ -101,17 +101,16 @@ namespace IdentitySample.Models
     }
 
     // This is useful if you do not want to tear down the database each time you run the application.
-    // public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     // This example shows you how to create a new database if the Model changes
-    //public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> 
-    public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> 
+    //public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context) {
             InitializeIdentityForEF(context);
             base.Seed(context);
         }
 
-        private static void CreateRoleAndUser(string name, string email, string password, string roleName)
+        private static void CreateRoleAndUser(string firstname, string lastname, string email, string password, string roleName)
         {
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
@@ -124,10 +123,10 @@ namespace IdentitySample.Models
                 var roleresult = roleManager.Create(role);
             }
 
-            var user = userManager.FindByName(name);
+            var user = userManager.FindByName(email);
             if (user == null)
             {
-                user = new ApplicationUser { UserName = email, Email = email };
+                user = new ApplicationUser { FirstName = firstname, LastName = lastname, UserName = email, Email = email, IsConfirmed = true };
                 var result = userManager.Create(user, password);
                 result = userManager.SetLockoutEnabled(user.Id, false);
             }
@@ -142,9 +141,9 @@ namespace IdentitySample.Models
 
         //Create User=Admin@Admin.com with password=Admin@123456 in the Admin role        
         public static void InitializeIdentityForEF(ApplicationDbContext db) {
-            CreateRoleAndUser("Administrator", "admin@clinic.com", "Admin@1234", "Admin");
-            CreateRoleAndUser("Antoni Zak", "azak@gmail.com", "Antoni@1234", "Patient");
-            CreateRoleAndUser("Andrzej Nowak", "anowak@windowslive.com", "Andrzej@1234", "Doctor");
+            CreateRoleAndUser("Jan", "Wielebinski", "admin@clinic.com", "Admin@1234", "Admin");
+            CreateRoleAndUser("Antoni", "Zak", "azak@gmail.com", "Antoni@1234", "Patient");
+            CreateRoleAndUser("Andrzej", "Nowak", "anowak@windowslive.com", "Andrzej@1234", "Doctor");
         }
     }
 

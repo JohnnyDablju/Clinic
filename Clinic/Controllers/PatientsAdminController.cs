@@ -60,41 +60,27 @@ namespace IdentitySample.Controllers
             return View(await UserManager.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(role.RoleId)).ToListAsync());
         }
 
-        //
-        // GET: /Users/Create
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Approve()
         {
-            return View();
+            var role = RoleManager.FindByName("Patient").Users.First();
+            return View(await UserManager.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(role.RoleId)).Where(u => u.IsConfirmed == false).ToListAsync());
         }
 
-        //
-        // POST: /Users/Create
         [HttpPost]
-        public async Task<ActionResult> Create(RegisterDoctorViewModel userViewModel)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Accept(string id)
         {
-            if (ModelState.IsValid)
+            /*if (id == null)
             {
-                var user = new ApplicationUser { FirstName = userViewModel.FirstName, LastName = userViewModel.LastName, PWZ = userViewModel.PWZ, UserName = userViewModel.Email, Email = userViewModel.Email };
-                var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
-
-                if (adminresult.Succeeded)
-                {
-                    var result = await UserManager.AddToRoleAsync(user.Id, "Doctor");
-                    // czo te ify robiom!?
-                    if (!result.Succeeded)
-                    {
-                        ModelState.AddModelError("", result.Errors.First());
-                        return View();
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError("", adminresult.Errors.First());
-                    return View();
-                }
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }*/
+            var user = await UserManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return HttpNotFound();
             }
-            return View();
+            UserManager.Users.Where(u => u.Id == id).First().IsConfirmed = true;
+            return RedirectToAction("Index");
         }
 
         //

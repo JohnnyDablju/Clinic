@@ -154,6 +154,7 @@
     <Content Include="Views\PatientsAdmin\Delete.cshtml" />
     <Content Include="Views\PatientsAdmin\Index.cshtml" />
     <Content Include="Views\Account\RegistrationMessage.cshtml" />
+    <Content Include="Views\PatientsAdmin\Approve.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<IdentitySample.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Approve patients";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pesel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>Decision</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pesel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            <div class="btn-group btn-group-sm" role="group">
+                <form action="/PatientsAdmin/Accept/@item.Id" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Accept" class="btn btn-default" />
+                </form>
+                @Html.ActionLink("Accept", "Accept", new { id = item.Id }, new { @class = "btn btn-default btn-success" })
+                @Html.ActionLink("Reject", "Delete", new { id = item.Id }, new { @class = "btn btn-default btn-danger" })
+            </div>
+        </td>
+    </tr>
+}
+
+</table>

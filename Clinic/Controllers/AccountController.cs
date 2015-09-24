@@ -76,7 +76,18 @@ namespace IdentitySample.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    {
+                        var isConfirmed = UserManager.Users.Where(x => x.Email == model.Email).Select(y => y.IsConfirmed).First();
+                        if (isConfirmed)
+                        {
+                            return RedirectToLocal(returnUrl);
+                        }
+                        else
+                        {
+                            SignInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                            return View("RegistrationMessage");
+                        }
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
