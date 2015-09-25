@@ -68,19 +68,24 @@ namespace IdentitySample.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Accept(string id)
+        public ActionResult Accept(string id)
         {
-            /*if (id == null)
+            if (ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }*/
-            var user = await UserManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return HttpNotFound();
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                var user = UserManager.FindById(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                user.IsConfirmed = true;
+                UserManager.Update(user);
+                return RedirectToAction("Approve");
             }
-            UserManager.Users.Where(u => u.Id == id).First().IsConfirmed = true;
-            return RedirectToAction("Index");
+            return RedirectToAction("Approve");
         }
 
         //

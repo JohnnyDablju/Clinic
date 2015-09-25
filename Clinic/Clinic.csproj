@@ -150,7 +150,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <Content Include="Views\PatientsAdmin\Create.cshtml" />
     <Content Include="Views\PatientsAdmin\Delete.cshtml" />
     <Content Include="Views\PatientsAdmin\Index.cshtml" />
     <Content Include="Views\Account\RegistrationMessage.cshtml" />
@@ -193,19 +192,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\RolesAdmin\Index.cshtml" />
-    <Content Include="Views\RolesAdmin\Edit.cshtml" />
-    <Content Include="Views\RolesAdmin\Details.cshtml" />
-    <Content Include="Views\RolesAdmin\Delete.cshtml" />
-    <Content Include="Views\RolesAdmin\Create.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
@@ -224,7 +213,6 @@
     <Compile Include="Controllers\PatientsAdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\DoctorsAdminController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
