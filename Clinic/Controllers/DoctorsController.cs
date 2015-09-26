@@ -14,13 +14,13 @@ using System.Web.Mvc;
 namespace IdentitySample.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class DoctorsAdminController : Controller
+    public class DoctorsController : Controller
     {
-        public DoctorsAdminController()
+        public DoctorsController()
         {
         }
 
-        public DoctorsAdminController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
+        public DoctorsController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
             RoleManager = roleManager;

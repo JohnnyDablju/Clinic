@@ -48,5 +48,7 @@ namespace IdentitySample.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<Medcare.Models.Clinic> Clinics { get; set; }
     }
 }

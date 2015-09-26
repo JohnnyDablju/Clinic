@@ -46,7 +46,7 @@
         </td>
         <td>
             <div class="btn-group btn-group-sm" role="group">
-                <form action="/PatientsAdmin/Accept/@item.Id" method="post">
+                <form action="/Patients/Accept/@item.Id" method="post">
                     @Html.AntiForgeryToken()
                     <input type="submit" value="Accept" class="btn btn-default" />
                 </form>
