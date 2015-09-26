@@ -69,33 +69,25 @@ namespace IdentitySample.Controllers
             {
                 return View(model);
             }
-
-            // This doen't count login failures towards lockout only two factor authentication
-            // To enable password failures to trigger lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            // checking if user has been confirmed by admin
+            var isConfirmed = UserManager.Users.Where(x => x.Email == model.Email).Select(y => y.IsConfirmed).First();
+            if (isConfirmed)
             {
-                case SignInStatus.Success:
-                    {
-                        var isConfirmed = UserManager.Users.Where(x => x.Email == model.Email).Select(y => y.IsConfirmed).First();
-                        if (isConfirmed)
-                        {
-                            return RedirectToLocal(returnUrl);
-                        }
-                        else
-                        {
-                            SignInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-                            return View("RegistrationMessage");
-                        }
-                    }
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        return RedirectToLocal(returnUrl);
+                    case SignInStatus.Failure:
+                    default:
+                        ModelState.AddModelError("", "Invalid login attempt.");
+                        return View(model);
+                }
+            }
+            // if not information is being displayed
+            else
+            {
+                return View("RegistrationMessage");
             }
         }
 
