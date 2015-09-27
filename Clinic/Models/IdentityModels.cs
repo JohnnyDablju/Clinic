@@ -28,6 +28,11 @@ namespace IdentitySample.Models
         public string Pesel { get; set; }
         public string Address { get; set; }
         public bool IsConfirmed { get; set; }
+
+        public string GetName()
+        {
+            return FirstName + " " + LastName;
+        }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -50,5 +55,6 @@ namespace IdentitySample.Models
         }
 
         public System.Data.Entity.DbSet<Medcare.Models.Clinic> Clinics { get; set; }
+        public System.Data.Entity.DbSet<Medcare.Models.DoctorToClinic> DoctorsToClinics { get; set; }
     }
 }

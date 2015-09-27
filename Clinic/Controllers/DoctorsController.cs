@@ -16,6 +16,8 @@ namespace IdentitySample.Controllers
     [Authorize(Roles = "Admin")]
     public class DoctorsController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public DoctorsController()
         {
         }
@@ -52,17 +54,13 @@ namespace IdentitySample.Controllers
             }
         }
 
-        //
-        // GET: /Users/
         public async Task<ActionResult> Index()
         {
             var role = RoleManager.FindByName("Doctor").Users.First();
             return View(await UserManager.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(role.RoleId)).ToListAsync());
         }
 
-        //
-        // GET: /Users/Create
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
             return View();
         }
@@ -74,7 +72,7 @@ namespace IdentitySample.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { FirstName = userViewModel.FirstName, LastName = userViewModel.LastName, PWZ = userViewModel.PWZ, UserName = userViewModel.Email, Email = userViewModel.Email };
+                var user = new ApplicationUser { FirstName = userViewModel.FirstName, LastName = userViewModel.LastName, PWZ = userViewModel.PWZ, UserName = userViewModel.Email, Email = userViewModel.Email, IsConfirmed = true };
                 var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
 
                 if (adminresult.Succeeded)
@@ -96,34 +94,47 @@ namespace IdentitySample.Controllers
             return View();
         }
 
-        //
-        // GET: /Users/Edit/1
-        public async Task<ActionResult> Edit(string id)
+        public ActionResult AssignClinics(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var user = await UserManager.FindByIdAsync(id);
+            var user = UserManager.FindById(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
-
-            var userRoles = await UserManager.GetRolesAsync(user.Id);
-
-            return View(new EditUserViewModel()
+            return View(new AssignClinicsViewModel()
             {
-                Id = user.Id,
-                Email = user.Email,
-                RolesList = RoleManager.Roles.ToList().Select(x => new SelectListItem()
+                DoctorId = id,
+                DoctorName = user.GetName(),
+                ClinicsList = db.Clinics.ToList().Select(x => new SelectListItem()
                 {
-                    Selected = userRoles.Contains(x.Name),
+                    Selected = db.DoctorsToClinics.Where(y => y.DoctorId == id).Where(y => y.ClinicId == x.Id).Any(),
                     Text = x.Name,
-                    Value = x.Name
+                    Value = x.Id.ToString()
                 })
             });
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignClinics(AssignClinicsViewModel model, params string[] selectedClinic)
+        {
+            // removing currently existing assignments
+            db.DoctorsToClinics.RemoveRange(db.DoctorsToClinics.Where(y => y.DoctorId == model.DoctorId));
+            if (selectedClinic != null)
+            {
+                foreach (var item in selectedClinic)
+                {
+                    db.DoctorsToClinics.Add(new Medcare.Models.DoctorToClinic() { Id = Guid.NewGuid(), DoctorId = model.DoctorId, ClinicId = new Guid(item) });
+                }
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
 
         //
         // POST: /Users/Edit/5

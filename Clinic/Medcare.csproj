@@ -157,6 +157,7 @@
     <Content Include="Views\Clinics\Create.cshtml" />
     <Content Include="Views\Clinics\Delete.cshtml" />
     <Content Include="Views\Clinics\Index.cshtml" />
+    <Content Include="Views\Doctors\AssignClinics.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -190,7 +191,6 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Doctors\Index.cshtml" />
-    <Content Include="Views\Doctors\Edit.cshtml" />
     <Content Include="Views\Doctors\Delete.cshtml" />
     <Content Include="Views\Doctors\Create.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />

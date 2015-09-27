@@ -1,9 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using System;
 
 namespace IdentitySample.Models
 {
+    public class AssignClinicsViewModel
+    {
+        public string DoctorId { get; set; }
+        public string DoctorName { get; set; }
+        public IEnumerable<SelectListItem> ClinicsList { get; set; }
+    }
+
     public class EditUserViewModel
     {
         public string Id { get; set; }

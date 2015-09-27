@@ -12,4 +12,11 @@ namespace Medcare.Models
         [Required]
         public string Name { get; set; }
     }
+
+    public class DoctorToClinic
+    {
+        public Guid Id { get; set; }
+        public string DoctorId { get; set; }
+        public Guid ClinicId { get; set; }
+    }
 }
