@@ -29,9 +29,9 @@ namespace IdentitySample.Models
         public string Address { get; set; }
         public bool IsConfirmed { get; set; }
 
-        public string GetName()
+        public string Name
         {
-            return FirstName + " " + LastName;
+            get { return FirstName + " " + LastName; }
         }
     }
 
@@ -56,5 +56,7 @@ namespace IdentitySample.Models
 
         public System.Data.Entity.DbSet<Medcare.Models.Clinic> Clinics { get; set; }
         public System.Data.Entity.DbSet<Medcare.Models.DoctorToClinic> DoctorsToClinics { get; set; }
+        public System.Data.Entity.DbSet<Medcare.Models.Visit> Visits { get; set; }
+        public System.Data.Entity.DbSet<Medcare.Models.Workday> Workdays { get; set; }
     }
 }

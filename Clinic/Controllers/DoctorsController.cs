@@ -108,7 +108,7 @@ namespace IdentitySample.Controllers
             return View(new AssignClinicsViewModel()
             {
                 DoctorId = id,
-                DoctorName = user.GetName(),
+                DoctorName = user.Name,
                 ClinicsList = db.Clinics.ToList().Select(x => new SelectListItem()
                 {
                     Selected = db.DoctorsToClinics.Where(y => y.DoctorId == id).Where(y => y.ClinicId == x.Id).Any(),
@@ -133,48 +133,6 @@ namespace IdentitySample.Controllers
             }
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-
-        //
-        // POST: /Users/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Email,Id")] EditUserViewModel editUser, params string[] selectedRole)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await UserManager.FindByIdAsync(editUser.Id);
-                if (user == null)
-                {
-                    return HttpNotFound();
-                }
-
-                user.UserName = editUser.Email;
-                user.Email = editUser.Email;
-
-                var userRoles = await UserManager.GetRolesAsync(user.Id);
-
-                selectedRole = selectedRole ?? new string[] { };
-
-                var result = await UserManager.AddToRolesAsync(user.Id, selectedRole.Except(userRoles).ToArray<string>());
-
-                if (!result.Succeeded)
-                {
-                    ModelState.AddModelError("", result.Errors.First());
-                    return View();
-                }
-                result = await UserManager.RemoveFromRolesAsync(user.Id, userRoles.Except(selectedRole).ToArray<string>());
-
-                if (!result.Succeeded)
-                {
-                    ModelState.AddModelError("", result.Errors.First());
-                    return View();
-                }
-                return RedirectToAction("Index");
-            }
-            ModelState.AddModelError("", "Something failed.");
-            return View();
         }
 
         //

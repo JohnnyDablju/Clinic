@@ -21,10 +21,17 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (Request.IsAuthenticated && User.IsInRole("Admin")) {
-                        <li>@Html.ActionLink("Clinics", "Index", "Clinics")</li>
-                        <li>@Html.ActionLink("Doctors", "Index", "Doctors")</li>
-                        <li>@Html.ActionLink("Patients", "Index", "Patients")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Admin")) {
+                            <li>@Html.ActionLink("Clinics", "Index", "Clinics")</li>
+                            <li>@Html.ActionLink("Doctors", "Index", "Doctors")</li>
+                            <li>@Html.ActionLink("Patients", "Index", "Patients")</li>
+                        }
+                        else if (User.IsInRole("Doctor"))
+                        {
+                            <li>@Html.ActionLink("Work plan", "Index", "Workdays")</li>
+                        }
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

@@ -70,8 +70,10 @@ namespace IdentitySample.Controllers
                 return View(model);
             }
             // checking if user has been confirmed by admin
-            var isConfirmed = UserManager.Users.Where(x => x.Email == model.Email).Select(y => y.IsConfirmed).First();
-            if (isConfirmed)
+            var c1 = UserManager.Users.Where(x => x.Email == model.Email).Where(x => x.IsConfirmed == true).Any();
+            // or maybe wrong data has been provided
+            var c2 = UserManager.Users.Where(x => x.Email == model.Email).Any();
+            if (c1 || !c2)
             {
                 var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
                 switch (result)
