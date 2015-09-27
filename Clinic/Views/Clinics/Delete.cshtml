@@ -1,32 +1,19 @@
 ﻿@model Medcare.Models.Clinic
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Delete clinic";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<h2>@ViewBag.Title</h2>
+<hr/>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        Are you sure you want to delete <mark>@Html.DisplayFor(model => model.Name)</mark>?
+    </p>
+    <input type="submit" value="Delete" class="btn btn-danger" />
+}
+<br />
 <div>
-    <h4>Clinic</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
+    @Html.ActionLink("Go back", "Index")
 </div>

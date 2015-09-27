@@ -11,6 +11,7 @@ using Medcare.Models;
 
 namespace Medcare.Controllers
 {
+    [Authorize(Roles="Admin")]
     public class ClinicsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
