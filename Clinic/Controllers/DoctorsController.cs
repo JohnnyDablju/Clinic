@@ -16,44 +16,6 @@ namespace IdentitySample.Controllers
     [Authorize(Roles = "Admin")]
     public class DoctorsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
-        public DoctorsController()
-        {
-        }
-
-        public DoctorsController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
-        {
-            UserManager = userManager;
-            RoleManager = roleManager;
-        }
-
-        private ApplicationUserManager _userManager;
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-
-        private ApplicationRoleManager _roleManager;
-        public ApplicationRoleManager RoleManager
-        {
-            get
-            {
-                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
-            }
-            private set
-            {
-                _roleManager = value;
-            }
-        }
-
         public async Task<ActionResult> Index()
         {
             var role = RoleManager.FindByName("Doctor").Users.First();
@@ -179,5 +141,41 @@ namespace IdentitySample.Controllers
             }
             return View();
         }
+
+        #region Helpers
+        private ApplicationDbContext db = new ApplicationDbContext();
+        public DoctorsController()
+        {
+        }
+        public DoctorsController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
+        {
+            UserManager = userManager;
+            RoleManager = roleManager;
+        }
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+        private ApplicationRoleManager _roleManager;
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
+        #endregion
     }
 }

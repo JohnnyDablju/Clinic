@@ -11,6 +11,7 @@ namespace Medcare.Models
     {
         public Guid Id { get; set; }
         [Required]
+        [Display(Name="Clinic name")]
         public string Name { get; set; }
     }
 
