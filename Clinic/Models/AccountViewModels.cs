@@ -40,6 +40,7 @@ namespace IdentitySample.Models
         [Display(Name = "Pesel Number")]
         public string Pesel { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string Address { get; set; }
 
         [Required]
