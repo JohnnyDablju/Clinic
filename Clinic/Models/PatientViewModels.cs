@@ -18,18 +18,20 @@ namespace Medcare.Models
 
     public class ScheduleVisitAdvancedViewModel
     {
+        public Guid ClinicId { get; set; }
+
         [Required]
         public IEnumerable<SelectListItem> DoctorsList { get; set; }
 
         [Display(Name="Date")]
-        [RegularExpression(@"^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$", ErrorMessage="Invalid date format. Please use dd/mm/yyyy")]
+        [RegularExpression(@"^(0?[1-9]|[12][0-9]|3[01])[-](0?[1-9]|1[012])[-]\d{4}$", ErrorMessage="Invalid date format. Please use dd-mm-yyyy.")]
         [Required]
         public string Date { get; set; }
 
         [Display(Name="Time")]
         [RegularExpression(@"^(0[0-9]|1[0-9]|2[1-3]):[0|3][0]$", ErrorMessage = "Invalid hour format. Please use hh:00 or hh:30.")]
         [Required]
-        public string Hour { get; set; }
+        public string Time { get; set; }
     }
 
     public class VisitPropositionViewModel

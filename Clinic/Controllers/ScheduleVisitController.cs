@@ -54,7 +54,7 @@ namespace Medcare.Controllers
             {
                 return RedirectToAction("Index", new { message = "Clinic was not selected." });
             }
-            return RedirectToAction("Assistant");
+            return RedirectToAction("Assistant", new { ClinicId = ClinicId[0] });
         }
 
         public ActionResult Proposition(VisitProposition model)
@@ -89,6 +89,44 @@ namespace Medcare.Controllers
             db.Visits.Add(visit);
             db.SaveChanges();
             return RedirectToAction("Index", "Visits");
+        }
+
+        public ActionResult Assistant(string ClinicId)
+        {
+            ViewBag.Doctors = new SelectList(db.Workdays.Where(w => w.ClinicId == new Guid(ClinicId)).Select(w => w.Doctor).Distinct().ToList(), "Id", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Assistant(ScheduleVisitAdvancedViewModel model, params string[] DoctorId)
+        {
+            ViewBag.Doctors = new SelectList(db.Workdays.Where(w => w.ClinicId == model.ClinicId).Select(w => w.Doctor).Distinct().ToList(), "Id", "Name");
+            string[] date = model.Date.Split('-');
+            try
+            {
+                if (DoctorId[0] == "")
+                {
+                    ModelState.AddModelError("", "Doctor was not selected.");
+                }
+                DateTime when = new DateTime(Convert.ToInt32(date[2]), Convert.ToInt32(date[1]), Convert.ToInt32(date[0]));
+                if (DateTime.Now.Date > when.Date)
+                {
+                    ModelState.AddModelError("", "Date cannot come from the past.");
+                }
+
+                if (ModelState.IsValid && ModelState.Values.Where(v => v.Errors.Count != 0).Count() == 1)
+                {
+                    var propositionModel = GetVisitByDoctor(when, DoctorId[0], model.ClinicId);
+                    return RedirectToAction("Proposition", propositionModel);
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                ModelState.AddModelError("", "Date doesn't exist.");
+            }
+
+            return View(model); 
         }
 
         #region Helpers
@@ -129,9 +167,9 @@ namespace Medcare.Controllers
                     workday = db.Workdays.Where(w => w.DoctorId == DoctorId).Where(w => w.ClinicId == ClinicId).Where(w => w.Day == day).ToList();
                 }
 
-                if (workday == null)
+                if (workday.Count == 0)
                 {
-                    when = when.AddHours(24 - when.Hour + 8);
+                    when = when.AddHours(24 - when.Hour + 5);
                     continue;
                 }
                 else
@@ -140,8 +178,23 @@ namespace Medcare.Controllers
                     var visits = db.Visits.Where(v => v.DoctorId == DoctorId).ToList().Where(v => DateTime.Compare(v.StartDateTime.Date, when.Date) == 0).Select(v => v.StartDateTime).OrderBy(t => t.TimeOfDay).ToList();
                     foreach (var plan in workday)
                     {
+                        // preparing when, to make sure that we schedule to visit which WILL happen
+                        if (when.TimeOfDay > plan.StartHour.TimeOfDay)
+                        {
+                            if (when.Minute > 30)
+                            {
+                                when = when.AddHours(1);
+                                when = when.AddMinutes(when.Minute);
+                            }
+                            else
+                            {
+                                when = when.AddMinutes(30 - when.Minute);
+                            }
+                            plan.StartHour.AddHours(when.Hour - plan.StartHour.Hour);
+                            plan.StartHour.AddMinutes(when.Minute - plan.StartHour.Minute);
+                        }
                         // looking for 30 minutes gap
-                        for (DateTime i = plan.StartHour; i < plan.EndHour; i.AddMinutes(30))
+                        for (DateTime i = plan.StartHour; i < plan.EndHour; i = i.AddMinutes(30))
                         {
                             bool flag = false;
                             foreach (var visit in visits)
@@ -163,7 +216,7 @@ namespace Medcare.Controllers
                         }
                     }
                     // all visits are scheduled already, let's move to another day
-                    when = when.AddHours(24 - when.Hour + 8);
+                    when = when.AddHours(24 - when.Hour + 5);
                 }
             }
             while (true);

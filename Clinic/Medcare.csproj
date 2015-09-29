@@ -163,6 +163,7 @@
     <Content Include="Views\Workdays\Index.cshtml" />
     <Content Include="Views\ScheduleVisit\Index.cshtml" />
     <Content Include="Views\ScheduleVisit\Proposition.cshtml" />
+    <Content Include="Views\ScheduleVisit\Assistant.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
