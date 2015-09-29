@@ -32,6 +32,10 @@
                         {
                             <li>@Html.ActionLink("Work plan", "Index", "Workdays")</li>
                         }
+                        else if (User.IsInRole("Patient"))
+                        {
+                            <li>@Html.ActionLink("Schedule a visit", "Index", "ScheduleVisit")</li>
+                        }
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

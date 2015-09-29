@@ -10,15 +10,15 @@ namespace Medcare.Models
     {
         [Display(Name = "Day of week")]
         [Required]
-        public Days Day { get; set; }
+        public DayOfWeek Day { get; set; }
 
         [Display(Name = "Start hour")]
-        [RegularExpression(@"^(0[0-9]|1[0-9]|2[1-3]):[0-5][0-9]$", ErrorMessage = "Invalid hour format. Please use hh:mm.")]
+        [RegularExpression(@"^(0[0-9]|1[0-9]|2[1-3]):[0|3][0]$", ErrorMessage = "Invalid hour format. Please use hh:00 or hh:30.")]
         [Required]
         public string StartHour { get; set; }
 
         [Display(Name = "End hour")]
-        [RegularExpression(@"^(0[0-9]|1[0-9]|2[1-3]):[0-5][0-9]$", ErrorMessage = "Invalid hour format. Please use hh:mm.")]
+        [RegularExpression(@"^(0[0-9]|1[0-9]|2[1-3]):[0|3][0]$", ErrorMessage = "Invalid hour format. Please use hh:00 or hh:30.")]
         [Required]
         public string EndHour { get; set; }
 

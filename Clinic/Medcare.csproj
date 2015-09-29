@@ -161,6 +161,8 @@
     <Content Include="Views\Workdays\Create.cshtml" />
     <Content Include="Views\Workdays\Delete.cshtml" />
     <Content Include="Views\Workdays\Index.cshtml" />
+    <Content Include="Views\ScheduleVisit\Index.cshtml" />
+    <Content Include="Views\ScheduleVisit\Proposition.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -222,7 +224,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\DoctorsController.cs" />
-    <Compile Include="Controllers\RegisterVisitController.cs" />
+    <Compile Include="Controllers\ScheduleVisitController.cs" />
     <Compile Include="Controllers\WorkdaysController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -239,9 +241,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\RegisterVisit\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

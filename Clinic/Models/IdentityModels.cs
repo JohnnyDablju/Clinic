@@ -29,6 +29,7 @@ namespace IdentitySample.Models
         public string Address { get; set; }
         public bool IsConfirmed { get; set; }
 
+        [Display(Name = "Doctor name")]
         public string Name
         {
             get { return FirstName + " " + LastName; }

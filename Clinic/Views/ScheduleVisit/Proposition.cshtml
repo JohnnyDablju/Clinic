@@ -1,0 +1,67 @@
+﻿@model Medcare.Models.VisitPropositionViewModel
+
+@{
+    ViewBag.Title = "Visit proposition";
+}
+
+<h2>@ViewBag.Title</h2>
+<h4>Please review and confirm below schedule</h4>
+<hr/>
+@using (Html.BeginForm("AcceptProposition", "ScheduleVisit", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ClinicId)
+    @Html.HiddenFor(model => model.DoctorId)
+    @Html.HiddenFor(model => model.StartDateTime)
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Clinic.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Clinic.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doctor.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doctor.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Day)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Day)
+        </dd>
+
+
+        <dd>
+            <br /><input type="submit" value="Confirm" class="btn btn-success" />
+        </dd>
+    </dl>
+}
+<div>
+    @Html.ActionLink("Go back", "Index") |
+    @Html.ActionLink("Schedule different visit in " + Html.DisplayFor(model => model.Clinic.Name), "Assistant")
+</div>
+

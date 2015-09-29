@@ -7,12 +7,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Medcare.Models
 {
-    public enum Days { Monday, Tuesday, Wendesday, Thursday, Friday }
     public class Workday
     {
         public Guid Id { get; set; }
         [Display(Name = "Day of week")]
-        public Days Day { get; set; }
+        public DayOfWeek Day { get; set; }
         [Display(Name = "Start hour")]
         [DataType(DataType.Time)]
         public DateTime StartHour { get; set; }

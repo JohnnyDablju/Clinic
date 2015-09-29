@@ -59,9 +59,9 @@ namespace IdentitySample.Controllers
                     ModelState.AddModelError("", result.Errors.First());
                     return RedirectToAction("ChangePersonalData", new { Message = result.Errors.First() });
                 }
-                return RedirectToAction("ChangePersonalData", new { Message = "Data updated successfully" });
+                return RedirectToAction("ChangePersonalData", new { Message = "Data updated successfully." });
             }
-            return RedirectToAction("ChangePersonalData", new { Message = "Invalid data provided" });
+            return RedirectToAction("ChangePersonalData", new { Message = "Invalid data provided." });
         }
 
 
