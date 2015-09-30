@@ -189,8 +189,12 @@ namespace Medcare.Controllers
                         {
                             if (when.Minute > 30)
                             {
-                                when = when.AddHours(1);
-                                when = when.AddMinutes(- when.Minute);
+                                // to avoid date switch
+                                if (when.AddHours(1).Date == when.Date)
+                                {
+                                    when = when.AddHours(1);
+                                    when = when.AddMinutes(-when.Minute);
+                                }
                             }
                             else if (when.Minute > 0)
                             {
@@ -198,11 +202,6 @@ namespace Medcare.Controllers
                             }
                             start = plan.StartHour.AddHours(when.Hour - plan.StartHour.Hour);
                             start = start.AddMinutes(when.Minute - plan.StartHour.Minute);
-                            // day switched :(
-                            if (start < plan.StartHour)
-                            {
-                                start = plan.EndHour;
-                            }
                         }
                         // looking for 30 minutes gap
                         for (DateTime i = start; i < plan.EndHour; i = i.AddMinutes(30))
