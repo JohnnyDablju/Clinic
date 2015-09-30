@@ -5,8 +5,7 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
-
+<h4>Accept or reject patients' registrations</h4>
 <table class="table">
     <tr>
         <th>
@@ -22,9 +21,9 @@
             @Html.DisplayNameFor(model => model.Address)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.DisplayNameFor(model => model.Email)
         </th>
-        <th>Decision</th>
+        <th>Actions</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -42,19 +41,18 @@
             @Html.DisplayFor(modelItem => item.Address)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.UserName)
+            @Html.DisplayFor(modelItem => item.Email)
         </td>
         <td>
-            <div class="btn-group btn-group-sm" role="group">
-                <form action="/Patients/Accept/@item.Id" method="post">
-                    @Html.AntiForgeryToken()
-                    <input type="submit" value="Accept" class="btn btn-default" />
-                </form>
-                @Html.ActionLink("Accept", "Accept", new { id = item.Id }, new { @class = "btn btn-default btn-success" })
-                @Html.ActionLink("Reject", "Delete", new { id = item.Id }, new { @class = "btn btn-default btn-danger" })
+            <div class="btn-group btn-group-sm">
+                @Html.ActionLink("Accept", "Accept", new { id = item.Id }, new { @class = "btn btn-success" })
+                @Html.ActionLink("Reject", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
             </div>
         </td>
     </tr>
 }
 
 </table>
+<div>
+    @Html.ActionLink("Go back", "Index")
+</div>

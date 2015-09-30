@@ -1,4 +1,4 @@
-﻿@model IdentitySample.Models.ApplicationUser
+﻿@model IdentitySample.Models.ChangePersonalDataViewModel
 @{
     ViewBag.Title = "Manage personal data";
 }
@@ -8,10 +8,10 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 <hr />
 
-@using (Html.BeginForm("ChangePersonalData", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("ChangePersonalData", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="form-group">
         @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
@@ -23,12 +23,14 @@
         @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
         </div>
     </div>
     if (User.IsInRole("Patient"))
@@ -37,12 +39,13 @@
             @Html.LabelFor(m => m.Pesel, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 @Html.TextBoxFor(m => m.Pesel, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Pesel, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                @Html.TextAreaFor(m => m.Address, 2, 1, new { @class = "form-control", @style = "resize:none;overflow:hidden" })
             </div>
         </div>
     }
@@ -52,6 +55,7 @@
             @Html.LabelFor(m => m.PWZ, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 @Html.TextBoxFor(m => m.PWZ, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PWZ, "", new { @class = "text-danger" })
             </div>
         </div>
     }
@@ -61,4 +65,7 @@
             @Html.ActionLink("Change your password", "ChangePassword", null, new { @class = "btn btn-default btn-info" })
         </div>
     </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

@@ -21,15 +21,17 @@ namespace IdentitySample.Models
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Display(Name = "Last Name")]
+        [Display(Name = "Last name")]
         public string LastName { get; set; }
-
+        
+        [Display(Name = "PWZ number")]
         public string PWZ { get; set; }
+
+        [Display(Name = "Pesel number")]
         public string Pesel { get; set; }
         public string Address { get; set; }
         public bool IsConfirmed { get; set; }
 
-        [Display(Name = "Doctor name")]
         public string Name
         {
             get { return FirstName + " " + LastName; }

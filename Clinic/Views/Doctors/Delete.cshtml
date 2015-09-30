@@ -5,15 +5,17 @@
 }
 
 <h2>@ViewBag.Title</h2>
+<h4>Are you sure you want to delete <mark>@Html.DisplayFor(model => model.Name)</mark>?</h4>
 <hr />
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
-    <p>
-        Are you sure you want to delete <mark>@Html.DisplayFor(model => model.Name)</mark>?
-    </p>
-    <input type="submit" value="Delete" class="btn btn-danger" />
+    <dl class="dl-horizontal">
+        <dt>Doctor name</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+        <dd><br /><input type="submit" value="Delete" class="btn btn-danger" /></dd>
+    </dl>
+    
 }
-<br />
 <div>
     @Html.ActionLink("Go back", "Index")
 </div>

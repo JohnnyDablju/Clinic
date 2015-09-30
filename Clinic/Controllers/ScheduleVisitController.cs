@@ -101,29 +101,34 @@ namespace Medcare.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Assistant(ScheduleVisitAdvancedViewModel model, params string[] DoctorId)
         {
+            int errors = 0;
             ViewBag.Doctors = new SelectList(db.Workdays.Where(w => w.ClinicId == model.ClinicId).Select(w => w.Doctor).Distinct().ToList(), "Id", "Name");
             string[] date = model.Date.Split('-');
+            string[] time = model.Time.Split(':');
             try
             {
                 if (DoctorId[0] == "")
                 {
                     ModelState.AddModelError("", "Doctor was not selected.");
+                    errors++;
                 }
-                DateTime when = new DateTime(Convert.ToInt32(date[2]), Convert.ToInt32(date[1]), Convert.ToInt32(date[0]));
-                if (DateTime.Now.Date > when.Date)
+                DateTime when = new DateTime(Convert.ToInt32(date[2]), Convert.ToInt32(date[1]), Convert.ToInt32(date[0]), Convert.ToInt32(time[0]), Convert.ToInt32(time[1]), 0);
+                if (DateTime.Now > when)
                 {
-                    ModelState.AddModelError("", "Date cannot come from the past.");
+                    ModelState.AddModelError("", "Date and time cannot come from the past.");
+                    errors++;
                 }
-
-                if (ModelState.IsValid && ModelState.Values.Where(v => v.Errors.Count != 0).Count() == 1)
+                // if no errors occured, display proposition
+                if (errors == 0)
                 {
                     var propositionModel = GetVisitByDoctor(when, DoctorId[0], model.ClinicId);
                     return RedirectToAction("Proposition", propositionModel);
                 }
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentOutOfRangeException)
             {
                 ModelState.AddModelError("", "Date doesn't exist.");
+                errors++;
             }
 
             return View(model); 
@@ -178,23 +183,29 @@ namespace Medcare.Controllers
                     var visits = db.Visits.Where(v => v.DoctorId == DoctorId).ToList().Where(v => DateTime.Compare(v.StartDateTime.Date, when.Date) == 0).Select(v => v.StartDateTime).OrderBy(t => t.TimeOfDay).ToList();
                     foreach (var plan in workday)
                     {
+                        DateTime start = plan.StartHour;
                         // preparing when, to make sure that we schedule to visit which WILL happen
                         if (when.TimeOfDay > plan.StartHour.TimeOfDay)
                         {
                             if (when.Minute > 30)
                             {
                                 when = when.AddHours(1);
-                                when = when.AddMinutes(when.Minute);
+                                when = when.AddMinutes(- when.Minute);
                             }
-                            else
+                            else if (when.Minute > 0)
                             {
                                 when = when.AddMinutes(30 - when.Minute);
                             }
-                            plan.StartHour.AddHours(when.Hour - plan.StartHour.Hour);
-                            plan.StartHour.AddMinutes(when.Minute - plan.StartHour.Minute);
+                            start = plan.StartHour.AddHours(when.Hour - plan.StartHour.Hour);
+                            start = start.AddMinutes(when.Minute - plan.StartHour.Minute);
+                            // day switched :(
+                            if (start < plan.StartHour)
+                            {
+                                start = plan.EndHour;
+                            }
                         }
                         // looking for 30 minutes gap
-                        for (DateTime i = plan.StartHour; i < plan.EndHour; i = i.AddMinutes(30))
+                        for (DateTime i = start; i < plan.EndHour; i = i.AddMinutes(30))
                         {
                             bool flag = false;
                             foreach (var visit in visits)

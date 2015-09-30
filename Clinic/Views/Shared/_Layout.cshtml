@@ -28,13 +28,17 @@
                             <li>@Html.ActionLink("Doctors", "Index", "Doctors")</li>
                             <li>@Html.ActionLink("Patients", "Index", "Patients")</li>
                         }
-                        else if (User.IsInRole("Doctor"))
+                        if (User.IsInRole("Doctor"))
                         {
                             <li>@Html.ActionLink("Work plan", "Index", "Workdays")</li>
                         }
-                        else if (User.IsInRole("Patient"))
+                        if (User.IsInRole("Patient"))
                         {
                             <li>@Html.ActionLink("Schedule a visit", "Index", "ScheduleVisit")</li>
+                        }
+                        if (User.IsInRole("Admin") || User.IsInRole("Doctor") || User.IsInRole("Patient"))
+                        {
+                            <li>@Html.ActionLink("Visits", "Index", "Visits")</li>
                         }
                     }
                 </ul>

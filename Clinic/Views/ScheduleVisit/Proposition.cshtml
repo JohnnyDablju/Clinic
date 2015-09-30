@@ -5,7 +5,7 @@
 }
 
 <h2>@ViewBag.Title</h2>
-<h4>Please review and confirm below schedule</h4>
+<h4>That's the best we could find, please review and confirm below schedule</h4>
 <hr/>
 @using (Html.BeginForm("AcceptProposition", "ScheduleVisit", FormMethod.Post))
 {
@@ -23,7 +23,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Doctor.Name)
+            Doctor name
         </dt>
 
         <dd>
@@ -62,6 +62,6 @@
 }
 <div>
     @Html.ActionLink("Go back", "Index") |
-    @Html.ActionLink("Schedule different visit in " + Html.DisplayFor(model => model.Clinic.Name), "Assistant")
+    @Html.ActionLink("Schedule different visit in " + Html.DisplayFor(model => model.Clinic.Name), "Assistant", new { Clinicid = Model.ClinicId })
 </div>
 

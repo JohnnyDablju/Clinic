@@ -1,0 +1,61 @@
+﻿@model Medcare.Models.Visit
+
+@{
+    ViewBag.Title = "Cancel visit";
+}
+
+<h2>@ViewBag.Title</h2>
+<h4>Are you sure you want to cancel this visit?</h4>
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Clinic.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Clinic.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doctor.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doctor.Name)
+        </dd>
+
+        <dt>
+            Patient name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patient.Name)
+        </dd>
+
+        <dt>
+            Date
+        </dt>
+
+        <dd>
+            @Model.StartDateTime.ToString("dd-MM-yyyy")
+        </dd>
+
+        <dt>
+            Time
+        </dt>
+
+        <dd>
+            @Model.StartDateTime.ToString("HH:mm")
+        </dd>
+
+        <dd>
+            <br /><input type="submit" value="Cancel" class="btn btn-danger" />
+        </dd>
+    </dl>
+}
+<div>
+    @Html.ActionLink("Go back", "Index")
+</div>

@@ -16,44 +16,6 @@ namespace IdentitySample.Controllers
     [Authorize(Roles = "Admin")]
     public class PatientsController : Controller
     {
-        public PatientsController()
-        {
-        }
-
-        public PatientsController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
-        {
-            UserManager = userManager;
-            RoleManager = roleManager;
-        }
-
-        private ApplicationUserManager _userManager;
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-
-        private ApplicationRoleManager _roleManager;
-        public ApplicationRoleManager RoleManager
-        {
-            get
-            {
-                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
-            }
-            private set
-            {
-                _roleManager = value;
-            }
-        }
-
-        //
-        // GET: /Users/
         public async Task<ActionResult> Index()
         {
             var role = RoleManager.FindByName("Patient").Users.First();
@@ -66,8 +28,7 @@ namespace IdentitySample.Controllers
             return View(await UserManager.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(role.RoleId)).Where(u => u.IsConfirmed == false).ToListAsync());
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        // should be [HttpPost] for the future
         public ActionResult Accept(string id)
         {
             if (ModelState.IsValid)
@@ -132,5 +93,43 @@ namespace IdentitySample.Controllers
             }
             return View();
         }
+
+        #region Helpers
+        public PatientsController()
+        {
+        }
+
+        public PatientsController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
+        {
+            UserManager = userManager;
+            RoleManager = roleManager;
+        }
+
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        private ApplicationRoleManager _roleManager;
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
+        #endregion
     }
 }

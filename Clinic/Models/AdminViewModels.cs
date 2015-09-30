@@ -12,18 +12,6 @@ namespace IdentitySample.Models
         public IEnumerable<SelectListItem> ClinicsList { get; set; }
     }
 
-    public class EditUserViewModel
-    {
-        public string Id { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        public IEnumerable<SelectListItem> RolesList { get; set; }
-    }
-
     public class RegisterDoctorViewModel
     {
         [Required]
@@ -35,7 +23,8 @@ namespace IdentitySample.Models
         public string LastName { get; set; }
 
         [Required]
-        [Display(Name = "PWZ")]
+        [RegularExpression("^[0-9]{7}$", ErrorMessage="The PWZ number is invalid.")]
+        [Display(Name = "PWZ number")]
         public string PWZ { get; set; }
 
         [Required]

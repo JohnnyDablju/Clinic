@@ -20,7 +20,7 @@ namespace Medcare.Controllers
         public ActionResult Index()
         {
             var id = User.Identity.GetUserId();
-            var workdays = db.Workdays.Where(w => w.DoctorId == id);
+            var workdays = db.Workdays.Where(w => w.DoctorId == id).OrderBy(w => w.Day).ThenBy(w => w.StartHour);
             return View(workdays.ToList());
         }
 

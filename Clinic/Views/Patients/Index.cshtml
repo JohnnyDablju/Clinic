@@ -5,11 +5,7 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
-<p>
-    @Html.ActionLink("Approve patients", "Approve");
-</p>
-
+<h4>View, manage and approve patients' registrations</h4>
 <table class="table">
     <tr>
         <th>
@@ -51,11 +47,12 @@
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             </td>
         </tr>
     }
 
 </table>
+<p>
+    @Html.ActionLink("Approve patients", "Approve", null, new { @class = "btn btn-default btn-primary" })
+</p>

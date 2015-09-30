@@ -36,10 +36,7 @@ namespace IdentitySample.Models
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
                 RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
             };
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;
@@ -141,9 +138,7 @@ namespace IdentitySample.Models
 
         //Create User=Admin@Admin.com with password=Admin@123456 in the Admin role        
         public static void InitializeIdentityForEF(ApplicationDbContext db) {
-            CreateRoleAndUser("Jan", "Wielebinski", "admin@clinic.com", "Admin@1234", "Admin");
-            CreateRoleAndUser("Antoni", "Zak", "azak@gmail.com", "Antoni@1234", "Patient");
-            CreateRoleAndUser("Andrzej", "Nowak", "anowak@windowslive.com", "Andrzej@1234", "Doctor");
+            CreateRoleAndUser("Admin", "Admin", "admin@medicare.com", "admin123", "Admin");
         }
     }
 

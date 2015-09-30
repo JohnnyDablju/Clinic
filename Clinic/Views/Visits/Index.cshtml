@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Medcare.Models.Visit>
+
+@{
+    ViewBag.Title = "Scheduled visits";
+}
+
+<h2>@ViewBag.Title</h2>
+<h4>View and cancel visits</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Clinic.Name)
+        </th>
+        @if (!User.IsInRole("Doctor")) { 
+        <th>
+            Doctor name
+        </th>
+        }
+        @if (!User.IsInRole("Patient")) { 
+        <th>
+            Patient name
+        </th>
+        }
+        <th>
+            @Html.DisplayNameFor(model => model.StartDateTime.Date)
+        </th>
+        <th>
+            Time
+        </th>
+        <th>Actions</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Clinic.Name)
+        </td>
+        @if (!User.IsInRole("Doctor")) {
+        <td>
+            @Html.DisplayFor(modelItem => item.Doctor.Name)
+        </td>
+        }
+        @if (!User.IsInRole("Patient"))
+        {
+        <td>
+            @Html.DisplayFor(modelItem => item.Patient.Name)
+        </td>
+        }
+        <td>
+            @item.StartDateTime.ToString("dd-MM-yyyy")
+        </td>
+        <td>
+            @item.StartDateTime.ToString("HH:mm")
+        </td>
+        <td>
+            @if (item.StartDateTime > DateTime.Now) 
+            { 
+                @Html.ActionLink("Cancel", "Delete", new { id=item.Id })
+            }
+        </td>
+    </tr>
+}
+
+</table>
