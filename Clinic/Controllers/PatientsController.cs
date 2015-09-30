@@ -18,14 +18,14 @@ namespace IdentitySample.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            var role = RoleManager.FindByName("Patient").Users.First();
-            return View(await UserManager.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(role.RoleId)).ToListAsync());
+            var roleId = RoleManager.FindByName("Patient").Id;
+            return View(await UserManager.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(roleId)).ToListAsync());
         }
 
         public async Task<ActionResult> Approve()
         {
-            var role = RoleManager.FindByName("Patient").Users.First();
-            return View(await UserManager.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(role.RoleId)).Where(u => u.IsConfirmed == false).ToListAsync());
+            var roleId = RoleManager.FindByName("Patient").Id;
+            return View(await UserManager.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(roleId)).Where(u => u.IsConfirmed == false).ToListAsync());
         }
 
         // should be [HttpPost] for the future

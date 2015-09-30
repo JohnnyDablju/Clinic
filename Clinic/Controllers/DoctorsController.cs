@@ -18,8 +18,8 @@ namespace IdentitySample.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            var role = RoleManager.FindByName("Doctor").Users.First();
-            return View(await UserManager.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(role.RoleId)).ToListAsync());
+            var roleId = RoleManager.FindByName("Doctor").Id;
+            return View(await UserManager.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(roleId)).ToListAsync());
         }
 
         public ActionResult Create()
